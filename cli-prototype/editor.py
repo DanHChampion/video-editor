@@ -10,9 +10,9 @@ def open_file():
     vid_capture = cv2.VideoCapture(path)
     if (vid_capture.isOpened() == False):
         print("Error Opening the Video File")
+        exit()
     else:
         print("Successfully loaded:", path, "\n")
-        get_video_info()
 
 def get_video_info():
     vid_capture = cv2.VideoCapture(path)
@@ -46,7 +46,7 @@ What would you like to do?
     [4] Adjust Constrast
     [5] Add Film Grain
     [6] Remove Noise
-    [exit] Exit
+    [exit] Exit Program
     """)
     user_input = input(">> ")
 
@@ -58,6 +58,10 @@ What would you like to do?
         Functions.adjust_brightness(vid_capture, path)
     elif user_input == '4':
         Functions.adjust_contrast(vid_capture, path)
+    elif user_input == '5':
+        noise_type = input("Choose type of noise ([1] Gaussian Noise ; [2] Simplex  Noise ; [3] Artifcial Film Grain): ")
+        if noise_type == '1':
+            Functions.gaussian_noise(vid_capture,path)
     elif user_input == 'exit':
         exit()
     
