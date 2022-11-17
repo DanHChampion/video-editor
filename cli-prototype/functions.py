@@ -95,23 +95,50 @@ class Functions:
         
         col,row = Functions.get_framesize(vid)
         mean = 0
-        sigma = 2
+        sigma = 0.01
 
         while(vid.isOpened()):
             ret, frame = vid.read()
             if ret == True:
                 # Add Gaussian Noise Here
-                gauss = np.random.normal(mean,sigma,(row,col)).astype("uint8")
+                gauss = np.random.normal(mean,sigma,(row,col)).astype("uint8")* 255
                 grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 noisy_frame = grey_frame + gauss
-
+                # cv2.normalize(noisy_frame, noisy_frame, 0, 255, cv2.NORM_MINMAX)
                 output.write(noisy_frame)
                 
             else:
                 break
-        cv2.destroyAllWindows()
         print("Completed!")
         output.release()
+
+    def combine_videos(vid, path):
+        name="combine"
+        new_vid_path = input("Video Path: ")
+
+        col,row = Functions.get_framesize(vid)
+        col = col*2
+        new_capture = cv2.VideoCapture(new_vid_path)
+
+        if (Functions.get_framecount(vid)== Functions.get_framecount(new_capture) and Functions.get_framerate(vid)== Functions.get_framerate(new_capture)):
+            print("Combining "+ Functions.get_video_name(path) + "&"+  Functions.get_video_name(new_vid_path)+" ...")
+            output = cv2.VideoWriter('results/'+name+'.mp4', -1, Functions.get_framerate(vid), (col,row) , 0)
+
+            while(vid.isOpened()):
+                ret, org = vid.read()
+                ret2, new = new_capture.read()
+                if ret == True:
+                    # Combine Frames here
+                    combined_frame = np.concatenate((org, new), axis=1)
+
+                    output.write(combined_frame)
+                    
+                else:
+                    break
+            print("Completed!")
+            output.release()
+        else:
+            print("Videos must have the same size, framerate, and framecount")
 
 # References
 
