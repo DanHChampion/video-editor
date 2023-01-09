@@ -95,17 +95,50 @@ class Functions:
         
         col,row = Functions.get_framesize(vid)
         mean = 0
-        sigma = 0.01
+        sigma = 10**0.5
 
         while(vid.isOpened()):
             ret, frame = vid.read()
             if ret == True:
                 # Add Gaussian Noise Here
-                gauss = np.random.normal(mean,sigma,(row,col)).astype("uint8")* 255
+                gaussian = np.random.normal(mean, sigma, (row, col)) #  np.zeros((224, 224), np.float32)
+
+                noisy_image = np.zeros(frame.shape, np.float32)
+
+                if len(frame.shape) == 2:
+                    noisy_image = frame + gaussian
+                else:
+                    noisy_image[:, :, 0] = frame[:, :, 0] + gaussian
+                    noisy_image[:, :, 1] = frame[:, :, 1] + gaussian
+                    noisy_image[:, :, 2] = frame[:, :, 2] + gaussian
+
+                cv2.normalize(noisy_image, noisy_image, 0, 255, cv2.NORM_MINMAX, dtype=-1)
+                noisy_image = noisy_image.astype(np.uint8)
+                output.write(noisy_image)
+
+                # gauss = np.random.normal(mean,sigma,(row,col)).astype("uint8")* 255
+                # grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                # noisy_frame = grey_frame + gauss
+                # # cv2.normalize(noisy_frame, noisy_frame, 0, 255, cv2.NORM_MINMAX)
+                # output.write(gauss)
+                
+            else:
+                break
+        print("Completed!")
+        output.release()
+
+    def median_blur(vid,path):
+        name = "medianblur"
+        print("Removing noise through Median Filtering...")
+        output = Functions.intialize_output(name,vid,path)
+
+        while(vid.isOpened()):
+            ret, frame = vid.read()
+            if ret == True:
+                # Add Median Blur Here
                 grey_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                noisy_frame = grey_frame + gauss
-                # cv2.normalize(noisy_frame, noisy_frame, 0, 255, cv2.NORM_MINMAX)
-                output.write(noisy_frame)
+                new_frame = cv2.medianBlur(grey_frame, 5)
+                output.write(new_frame)
                 
             else:
                 break

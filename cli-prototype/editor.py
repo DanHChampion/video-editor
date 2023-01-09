@@ -65,9 +65,15 @@ What would you like to do?
     elif user_input == '5':
         f.adjust_contrast(vid_capture, path)
     elif user_input == '6':
-        noise_type = input("Choose type of noise ([1] Gaussian Noise ; [2] Simplex  Noise ; [3] Artifcial Film Grain): ")
+        noise_type = input("Choose type of noise ([1] Gaussian Noise ; [2] Modified Gaussian ; [3] Boolean Model): ")
         if noise_type == '1':
             f.gaussian_noise(vid_capture,path)
+        if noise_type == '2':
+            f.gaussian_noise(vid_capture,path)
+    elif user_input == '7':
+        noise_type = input("Choose denoising algorithm ([1] Median Filtering ; [2]  ; [3] ): ")
+        if noise_type == '1':
+            f.median_blur(vid_capture,path)
     elif user_input == 'exit':
         exit()
     
