@@ -14,3 +14,8 @@ Implementing "Realistic Film Grain"
 - Implementation based from C++ implementation and is very difficult to understand
 - Just need to read more and understand it, ask for external help
 
+
+## References
+
+More Modern CustomTkinter GUI Tutorial
+- Available at: [Medium](https://medium.com/@fareedkhandev/modern-gui-using-tkinter-12da0b983e22)
