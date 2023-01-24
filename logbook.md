@@ -14,6 +14,10 @@ Implementing "Realistic Film Grain"
 - Implementation based from C++ implementation and is very difficult to understand
 - Just need to read more and understand it, ask for external help
 
+Unknown error "mmco: unref short failure"
+- Not sure how to fix, it does not affect the editor as I know
+- But it needs to be fix so that printing in terminal is cleaning, error-free
+
 
 ## References
 
