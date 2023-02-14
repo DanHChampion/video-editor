@@ -195,10 +195,6 @@ class Editor_Window(customtkinter.CTk):
         # self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
         # self.seg_button_1.set("Value 2")
 
-    def open_input_dialog_event(self):
-        dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
-        print("CTkInputDialog:", dialog.get_input())
-
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
 
@@ -239,7 +235,6 @@ class Editor_Window(customtkinter.CTk):
         # self.menu.add_cascade(label="Edit", menu=self.edit)
 
     def play(self):
-        print("Playing")
         self.forward_frame()
         # self.paused = False
         # current_frame = round(self.video_slider.get())
@@ -261,7 +256,6 @@ class Editor_Window(customtkinter.CTk):
 
 
     def forward_frame(self):
-        print("nextframe")
         current_frame = self.video_slider.get()
         if current_frame < self.video.get_framecount():
             self.display_frame(round(current_frame)+1)
@@ -328,7 +322,6 @@ class Editor_Window(customtkinter.CTk):
         # update values in layers without updating layers GUI
         params = {}
         for i, widgets in enumerate(self.adjustments_frame.winfo_children()):
-            print(widgets)
             if i == 3:
                 params['value1'] = widgets.get()
                 print(params["value1"])

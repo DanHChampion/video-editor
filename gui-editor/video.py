@@ -21,7 +21,6 @@ class Video():
         ret, frame = self.vid_capture.read()
 
         for layer in self.layers:
-            print("bruh")
             frame = self.apply_layer(layer, frame)
 
         cv2image= cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
@@ -90,7 +89,6 @@ class Layer:
         pass
         
     def adjust_brightness(self, frame, brightness_value = 50):
-        print("adjusting brightness")
         brightness_value = self.parameters['value1'] 
         # Calculate Value
 
