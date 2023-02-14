@@ -18,6 +18,14 @@ Unknown error "mmco: unref short failure"
 - Not sure how to fix, it does not affect the editor as I know
 - But it needs to be fix so that printing in terminal is cleaning, error-free
 
+Limited number of layers to images
+- Because Tkinter is difficult to make scrollable frames to allow for multiple layers
+- Current Solution is to limit number of layers it can have (5 at the moment)
+
+Playing Videos within the Editor
+- Very difficult to have images change every framestep in the editor, usually crashes the editor
+- Potential Solution could be to switch between TkVideoPlayer/ and Image after pressing play
+
 
 ## References
 
