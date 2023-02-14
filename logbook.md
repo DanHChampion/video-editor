@@ -26,6 +26,9 @@ Playing Videos within the Editor
 - Very difficult to have images change every framestep in the editor, usually crashes the editor
 - Potential Solution could be to switch between TkVideoPlayer/ and Image after pressing play
 
+Performance Drops on High Res Images
+- Unsure how to overcome this at the moment, only affected when adding Film Grain
+
 
 ## References
 
