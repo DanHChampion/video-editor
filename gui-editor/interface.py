@@ -3,6 +3,7 @@ import customtkinter
 import time
 from tkinter.filedialog import askopenfile
 from video import Video
+import math
 
 customtkinter.set_appearance_mode("System")  # Modes: system (default), light, dark
 customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -95,7 +96,7 @@ class Editor_Window(customtkinter.CTk):
         # self.switch_2 = customtkinter.CTkSwitch(master=self.right_sidebar_frame)
         # self.switch_2.grid(row=4, column=0, pady=(10, 20), padx=20, sticky="n")
         # configure window
-        self.title("CustomTkinter complex_example.py")
+        self.title("Video Editor")
         self.geometry(f"{1600}x{900}")
 
         # configure grid layout (4x4)
@@ -107,13 +108,13 @@ class Editor_Window(customtkinter.CTk):
         self.sidebar_frame = customtkinter.CTkFrame(self, width=250, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
-        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="CustomTkinter", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Video Editor", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame, text = "Import Video", command= self.open_file, width=230)
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
-        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text = "Add Layer", command= self.add_layer, width=230)
+        self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, text = "Export Video", command= self.export_file, width=230)
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
-        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame)
+        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, text = "Add Layer", command= self.add_layer, width=230)
         self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
         self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
@@ -178,15 +179,16 @@ class Editor_Window(customtkinter.CTk):
         # create slider and progressbar frame
         self.slider_progressbar_frame = customtkinter.CTkFrame(self, fg_color="transparent")
         self.slider_progressbar_frame.grid(row=1, column=1, columnspan=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        self.slider_progressbar_frame.grid_columnconfigure(0, weight=1)
+        self.slider_progressbar_frame.grid_columnconfigure(2, weight=1)
         self.slider_progressbar_frame.grid_rowconfigure(4, weight=1)
-        self.play_button = customtkinter.CTkButton(self.slider_progressbar_frame, height = 20, text= "Play",command= self.play)
-        self.play_button.grid(row=3, column=0, padx=(20, 10), pady=(10, 10))
+        self.back_button = customtkinter.CTkButton(self.slider_progressbar_frame, height = 20, width=150, text= "Back",command= self.revert_frame)
+        self.back_button.grid(row=3, column=0, padx=(20, 10), pady=(10, 10) , sticky="ew")
+        self.next_button = customtkinter.CTkButton(self.slider_progressbar_frame, height = 20, width=150, text= "Forward",command= self.forward_frame)
+        self.next_button.grid(row=3, column=1, padx=(20, 10), pady=(10, 10), sticky="ew")
         self.video_slider = customtkinter.CTkSlider(self.slider_progressbar_frame, from_=0, to=1, height = 20, command= self.slide)
-        self.video_slider.grid(row=4, column=0, padx=(20, 10), pady=(10, 10), sticky="ew")
+        self.video_slider.grid(row=4, column=0, columnspan=3, padx=(20, 10), pady=(10, 10), sticky="ew")
 
         # set default values
-        self.sidebar_button_3.configure(state="disabled", text="Disabled CTkButton")
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
         # self.optionmenu_1.set("CTkOptionmenu")
@@ -206,12 +208,12 @@ class Editor_Window(customtkinter.CTk):
         image = self.video.get_frame(frame_num)
         frame_size = self.video.get_framesize()
         frame_width = min(frame_size[0], 1000) # self.video_container.winfo_width()
-        frame_height = min(frame_size[1], 600) # self.video_container.winfo_height() #
+        frame_height = min(frame_size[1], 600) # self.video_container.winfo_height()
         current_image = customtkinter.CTkImage(light_image=image,dark_image=image, size=(int(frame_width),int(frame_height)))
         self.video_frame.configure(image = current_image)
         
     def slide(self, value):
-        self.display_frame(round(value))
+        self.display_frame(math.floor(value))
     
     def open_file(self):
         file = askopenfile(mode="r", filetypes=[('Video Files', ['*.mp4'])])
@@ -234,6 +236,9 @@ class Editor_Window(customtkinter.CTk):
         # self.edit.add_command(label="Undo")
         # self.menu.add_cascade(label="Edit", menu=self.edit)
 
+    def export_file(self):
+        self.video.export()
+
     def play(self):
         self.forward_frame()
         # self.paused = False
@@ -243,7 +248,6 @@ class Editor_Window(customtkinter.CTk):
         # if current_frame<framecount and not self.paused:
         #     self.forward_frame()
         # self.video_frame.after(1, self.play())
-
 
     def pause(self):
         self.paused = True
@@ -279,7 +283,7 @@ class Editor_Window(customtkinter.CTk):
         self.display_frame(self.video_slider.get())
 
     def update_layers_list(self):
-        # creates rows or layers (includes label, dropdown )
+        # creates rows or layers (includes label, dropdown)
         self.layers = self.video.layers
         for widgets in self.layers_frame.winfo_children():
             widgets.destroy()
@@ -288,7 +292,7 @@ class Editor_Window(customtkinter.CTk):
             if layer.process == None:
                 name = "Empty Layer"
             else:
-                name = str(layer.process).capitalize()
+                name = str(layer.process).title()
             if layer.hidden:
                 colour = "grey"
                 hover_colour = "dark grey"
@@ -302,7 +306,7 @@ class Editor_Window(customtkinter.CTk):
         self.layers_frame.grid_rowconfigure(len(self.layers), weight=1)
 
     def edit_layer(self, value):
-        # get adjustments that affect layers GUI
+        # get adjustments that affect editor GUI
         hidden = False
         process = ""
         for i, widgets in enumerate(self.adjustments_frame.winfo_children()):
@@ -310,10 +314,13 @@ class Editor_Window(customtkinter.CTk):
                 process = widgets.get()
             if i == 2:
                 hidden = widgets.get()
-                        
+
+        # change values numbers in                 
+        
         # update values in video
         self.video.update_layer(index = self.selected_layer, process = process, hidden=hidden)
         self.update_layers_list()
+        self.select_layers(self.selected_layer)
 
         # refresh image
         self.display_frame(self.video_slider.get())
@@ -321,10 +328,17 @@ class Editor_Window(customtkinter.CTk):
     def make_adjustments(self, value):
         # update values in layers without updating layers GUI
         params = {}
+        # sliders = 0
         for i, widgets in enumerate(self.adjustments_frame.winfo_children()):
-            if i == 3:
+            # if i % 2 == 0 and i != 2:
+            #     params[f"value{sliders}"] = widgets.get()
+            #     sliders += 1
+            if i == 4:
                 params['value1'] = widgets.get()
-                print(params["value1"])
+            if i == 6:
+                params['value2'] = widgets.get()
+            if i == 8:
+                params['value3'] = widgets.get()
                         
         # update values in video
         self.video.update_layer(index = self.selected_layer, parameters = params)
@@ -337,20 +351,29 @@ class Editor_Window(customtkinter.CTk):
         for widgets in self.adjustments_frame.winfo_children():
             widgets.destroy()
         
-        # if self.video.layers[layer_index].process == None:
-        #     heading = "Empty Layer"
-        # else:
-        #     heading = str(self.video.layers[layer_index].process).capitalize()
-        # labels created
         layer_label = customtkinter.CTkLabel(self.adjustments_frame, text=f"Layer {layer_index+1}", font=customtkinter.CTkFont(size=16, weight="bold"))
         layer_label.grid(row = 0, column = 1, padx=10, pady=10, sticky="nsew")
 
-
         # selecting process
-        processes = [ "Contrast", "Brightness", "Film Grain", "Noise Removal", "Colour Matching" ]
+        processes = [ "Contrast",
+                    "Brightness",
+                    "Colour Balance",
+                    "Colour Correction - Histogram Manipulation Linear",
+                    "Colour Correction - Histogram Manipulation Cauchy",
+                    "Colour Correction - Histogram Manipulation Logistic",
+                    "Colour Transfer - Linear Histogram Matching",
+                    "Colour Transfer - Principal Component Color Matching",
+                    "Colour Transfer - Reinhard et al.",
+                    "Film Grain - Gaussian",
+                    "Film Grain - Varying Grain Size",
+                    "Film Grain - Inhomogenous Boolean Model",
+                    "Noise Removal - Median Blur",
+                    "Noise Removal - Bilateral Filter",
+                    "Noise Removal - Non Local Means"
+                    ]
         select_process = customtkinter.CTkOptionMenu(self.adjustments_frame, dynamic_resizing=False, values=processes, height = 30, width=230, command = lambda _: self.edit_layer(_))
         select_process.grid(row = 1, column = 1, padx=20, pady=20)
-        select_process.set(self.layers[layer_index].process.capitalize())
+        select_process.set(self.layers[layer_index].process.title())
         self.adjustments_widgets.append(layer_label)
         self.adjustments_widgets.append(select_process)
 
@@ -362,15 +385,22 @@ class Editor_Window(customtkinter.CTk):
             hide_switch.select()
         self.adjustments_widgets.append(hide_switch)
 
-        # value slider
-        value1_slider = customtkinter.CTkSlider(self.adjustments_frame, from_=-50, to=50, height = 20, command = lambda _: self.make_adjustments(_))
-        value1_slider.grid(row=3, column=1, padx=(20, 10), pady=(10, 10), sticky="ew")
-        value1_slider.set(self.layers[layer_index].parameters['value1'])
-        self.adjustments_widgets.append(value1_slider)
+        labels = self.video.get_layer_labels(self.layers[layer_index])
+
+        for i, label in enumerate(labels):
+            # create custom and labels sliders
+            value_label = customtkinter.CTkLabel(self.adjustments_frame, text=f"{label}:", font=customtkinter.CTkFont(size=16, weight="bold"))
+            value_label.grid(row=(2*(i+1)+1), column=1, padx=(20, 10), pady=(10, 10), sticky="ew")
+
+            # value slider
+            value_slider = customtkinter.CTkSlider(self.adjustments_frame, from_=-50, to=50, height = 20, command = lambda _: self.make_adjustments(_))
+            value_slider.grid(row=(2*(i+1)+2), column=1, padx=(20, 10), pady=(10, 10), sticky="ew")
+            value_slider.set(self.layers[layer_index].parameters[f'value{i+1}'] if self.layers[layer_index].parameters[f'value{i+1}'] is not None else 0)
+            self.adjustments_widgets.append(value_slider)
 
         # delete layer button
         delete_button = customtkinter.CTkButton(self.adjustments_frame, text="Delete Layer", width=230, command = lambda : self.delete_layer())
-        delete_button.grid(row = 4, column = 1, padx=10, pady=10)
+        delete_button.grid(row = (len(self.adjustments_widgets)+1), column = 1, padx=10, pady=10) # PLUS ONE??
         self.adjustments_widgets.append(delete_button)
         self.adjustments_frame.grid_rowconfigure(len(self.adjustments_widgets), weight=1)
         
@@ -380,7 +410,3 @@ if __name__ == '__main__':
     app.mainloop()
 
 
-
-# # Use CTkButton instead of tkinter Button
-# button = customtkinter.CTkButton(master=app, text="CTkButton", command=button_function)
-# button.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
