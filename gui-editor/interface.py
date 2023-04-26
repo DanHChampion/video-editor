@@ -21,81 +21,6 @@ class Editor_Window(customtkinter.CTk):
 
     def __init__(self):
         super().__init__()
-        # self.tk = customtkinter.CTk()
-        # self.tk.title("Video Editor")
-        # self.frame = Frame(self.tk)
-        # self.tk.state('zoomed')
-
-        # # configure grid layout
-        # self.tk.grid_columnconfigure((0,1,2), weight=1)
-        # self.tk.grid_rowconfigure((0,1), weight=1)
-
-
-        # # create sidebar frame with buttons and video library (from folder)
-        # self.left_sidebar_frame = customtkinter.CTkFrame(self.tk, width=200, corner_radius=0)
-        # self.left_sidebar_frame.grid(row=0, column = 0, rowspan=2, sticky="nsew")
-
-        # self.logo_label = customtkinter.CTkLabel(self.left_sidebar_frame, text="CustomTkinter", font=customtkinter.CTkFont(size=20, weight="bold"))
-        # self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
-        # self.sidebar_button_1 = customtkinter.CTkButton(self.left_sidebar_frame, text = "Import Video" , command= self.open_file)
-        # self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
-        # self.sidebar_button_2 = customtkinter.CTkButton(self.left_sidebar_frame,  text = "Add Layer" , command= self.add_layer)
-        # self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
-
-
-        # # create main frame
-        # self.main_frame = customtkinter.CTkFrame(self.tk, width=1000, corner_radius=0, fg_color="transparent")
-        # self.main_frame.grid(row=0, column = 1, rowspan=2, sticky="nsew")
-        # self.main_frame.grid_columnconfigure((0), weight=1)
-        # self.main_frame.grid_rowconfigure((0,1,2), weight=1)
-
-        # self.video_container = customtkinter.CTkFrame(self.main_frame, width=1000, corner_radius=0, fg_color="black")
-        # self.video_container.grid(row=0, column = 0, rowspan=1, sticky="nsew")
-
-        # self.video_frame = customtkinter.CTkLabel(master=self.video_container, text="Video")
-        # self.video_frame.pack(expand=True, fill="both")
-
-        # self.video_bar = customtkinter.CTkFrame(self.main_frame, corner_radius=0, fg_color="blue")
-        # self.video_bar.grid(row=1, column = 0, rowspan=1, sticky="nsew")
-
-        # self.video_slider = customtkinter.CTkSlider(master=self.video_bar, from_=0, to=1, width=1000, height = 20, command= self.slide)
-        # self.video_slider.grid(row=0, column=1, rowspan=1, padx=(10, 10), pady=(10, 10), sticky="ns")
-
-
-        # self.video = Video()
-        # # self.video.load(r"temp/happy_seal.mp4")
-        # # self.display_frame(0)
-
-
-
-        # # create bottom frame where timeline is seen with layers
-        
-
-        # self.bottom_frame = customtkinter.CTkFrame(self.main_frame, width=1000, corner_radius=0, fg_color="transparent")
-        # # self.bottom_frame.grid(row=2, column = 0, rowspan=1, sticky="nsew")
-
-
-
-        # self.scroll_canvas = customtkinter.CTkCanvas(master = self.bottom_frame)
-
-        # v = Scrollbar(self.scroll_canvas)
-        # v.pack(side = RIGHT, fill = Y)
-
-        # self.scroll_canvas.configure(yscrollcommand = v.set)
-
-        # # create right frame which changes frames to allow changing values of algorithms
-        # self.right_sidebar_frame = customtkinter.CTkFrame(self.tk, width=200, corner_radius=0)
-        # self.right_sidebar_frame.grid(row=0, column=2, rowspan=2, sticky="nsew")
-
-        # self.checkbox_1 = customtkinter.CTkCheckBox(master=self.right_sidebar_frame)
-        # self.checkbox_1.grid(row=1, column=0, pady=(20, 10), padx=20, sticky="n")
-        # self.checkbox_2 = customtkinter.CTkCheckBox(master=self.right_sidebar_frame)
-        # self.checkbox_2.grid(row=2, column=0, pady=10, padx=20, sticky="n")
-        # self.switch_1 = customtkinter.CTkSwitch(master=self.right_sidebar_frame, command=lambda: print("switch 1 toggle"))
-        # self.switch_1.grid(row=3, column=0, pady=10, padx=20, sticky="n")
-        # self.switch_2 = customtkinter.CTkSwitch(master=self.right_sidebar_frame)
-        # self.switch_2.grid(row=4, column=0, pady=(10, 20), padx=20, sticky="n")
-        # configure window
         self.title("Video Editor")
         self.geometry(f"{1600}x{900}")
 
@@ -128,38 +53,10 @@ class Editor_Window(customtkinter.CTk):
         self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(10, 20))
 
         # create video
-
-        # self.video_container = customtkinter.CTkFrame(self.main_frame, width=1000, corner_radius=0, fg_color="black")
-        # self.video_container.grid(row=0, column = 0, rowspan=1, sticky="nsew")
-
         self.video_frame = customtkinter.CTkLabel(self, text="", height= 600, width=250)
         self.video_frame.grid(row=0, column=1, columnspan=2, padx=(10, 0), pady=(10, 0), sticky="new")
 
         self.video = Video()
-        
-        # self.textbox = customtkinter.CTkTextbox(self, width=250)
-        # self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
-
-        # # create tabview
-        # self.tabview = customtkinter.CTkTabview(self, width=250)
-        # self.tabview.grid(row=0, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        # self.tabview.add("CTkTabview")
-        # self.tabview.add("Tab 2")
-        # self.tabview.add("Tab 3")
-        # self.tabview.tab("CTkTabview").grid_columnconfigure(0, weight=1)  # configure grid of individual tabs
-        # self.tabview.tab("Tab 2").grid_columnconfigure(0, weight=1)
-
-        # self.optionmenu_1 = customtkinter.CTkOptionMenu(self.tabview.tab("CTkTabview"), dynamic_resizing=False,
-        #                                                 values=["Value 1", "Value 2", "Value Long Long Long"])
-        # self.optionmenu_1.grid(row=0, column=0, padx=20, pady=(20, 10))
-        # self.combobox_1 = customtkinter.CTkComboBox(self.tabview.tab("CTkTabview"),
-        #                                             values=["Value 1", "Value 2", "Value Long....."])
-        # self.combobox_1.grid(row=1, column=0, padx=20, pady=(10, 10))
-        # self.string_input_button = customtkinter.CTkButton(self.tabview.tab("CTkTabview"), text="Open CTkInputDialog",
-        #                                                    command=self.open_input_dialog_event)
-        # self.string_input_button.grid(row=2, column=0, padx=20, pady=(10, 10))
-        # self.label_tab_2 = customtkinter.CTkLabel(self.tabview.tab("Tab 2"), text="CTkLabel on Tab 2")
-        # self.label_tab_2.grid(row=0, column=0, padx=20, pady=20)
 
         # create adjustments frame
         self.adjustments_widgets = []
@@ -191,11 +88,6 @@ class Editor_Window(customtkinter.CTk):
         # set default values
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
-        # self.optionmenu_1.set("CTkOptionmenu")
-        # self.combobox_1.set("CTkComboBox")
-        # self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n" * 20)
-        # self.seg_button_1.configure(values=["CTkSegmentedButton", "Value 2", "Value 3"])
-        # self.seg_button_1.set("Value 2")
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         customtkinter.set_appearance_mode(new_appearance_mode)
@@ -225,29 +117,10 @@ class Editor_Window(customtkinter.CTk):
             frame_count = self.video.get_framecount()
             self.video_slider.set(0)
             self.video_slider.configure(to=frame_count)
-            # for widgets in self.layers_frame.winfo_children():
-            #     widgets.destroy()
 
-        # # config menu bar at top
-        # self.menu = Menu(self.tk)
-        # self.file = Menu(self.menu)
-        # self.menu.add_cascade(label="File", menu=self.file)
-        # self.edit = Menu(self.menu)
-        # self.edit.add_command(label="Undo")
-        # self.menu.add_cascade(label="Edit", menu=self.edit)
 
     def export_file(self):
         self.video.export()
-
-    def play(self):
-        self.forward_frame()
-        # self.paused = False
-        # current_frame = round(self.video_slider.get())
-        # framerate = self.video.get_framerate()
-        # framecount = self.video.get_framecount()
-        # if current_frame<framecount and not self.paused:
-        #     self.forward_frame()
-        # self.video_frame.after(1, self.play())
 
     def pause(self):
         self.paused = True
@@ -258,13 +131,11 @@ class Editor_Window(customtkinter.CTk):
             self.display_frame(round(current_frame)-1)
             self.video_slider.set(round(current_frame)-1)
 
-
     def forward_frame(self):
         current_frame = self.video_slider.get()
         if current_frame < self.video.get_framecount():
             self.display_frame(round(current_frame)+1)
             self.video_slider.set(round(current_frame)+1)
-
 
     def add_layer(self):
         self.layers = self.video.layers

@@ -5,8 +5,8 @@ import math
 class FilmGrain:
     # Basic Gaussian Noise Filter
     def gaussian_noise(parameters, frame):
-        mean = 1 # parameters['value1'] # Mean
-        sigma = 10 # parameters['value2'] * 0.5 # Standard Deviation
+        mean = parameters['value1'] # Mean
+        sigma = parameters['value2'] * 0.5 # Standard Deviation
         if sigma < 0:
             sigma = 0
 
@@ -29,8 +29,8 @@ class FilmGrain:
     
     # Varying Grain Size Noise
     def varying_grain_size(parameters, frame):
-        size_range = (4,6) # (math.floor(parameters['value2']*0.5), math.floor(parameters['value3']*0.5))
-        intensity = 0.05 # parameters['value1'] * 0.01
+        size_range = (math.floor(parameters['value2']*0.5), math.floor(parameters['value3']*0.5))
+        intensity = parameters['value1'] * 0.01
 
         # Convert image to float in range [0, 1]
         image = frame.astype(np.float32) / 255.0
@@ -57,8 +57,8 @@ class FilmGrain:
     # Inhomogenous Boolean Model
     def inhomogenous_boolean_model(parameters, frame):
         height, width = frame.shape[:2]
-        lambda0 = 2 #parameters['value1'] * 0.05 # 2.0
-        alpha = 1# parameters['value2'] * 0.05 # 1.0
+        lambda0 =parameters['value1'] * 0.05 # 2.0
+        alpha = parameters['value2'] * 0.05 # 1.0
 
         # Generate a homogeneous Poisson point process
         N = np.random.poisson(lambda0 * width * height)

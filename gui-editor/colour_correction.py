@@ -29,7 +29,6 @@ class ColourCorrection:
         new_vals = np.interp(freq, dist.cdf(np.arange(0,256)),np.arange(0,256))
         return new_vals[im_channel].astype(np.uint8)
 
-
     def distribution(image, function, mean, std):
         if function != "linear":
             dist = function(mean,std)
@@ -37,15 +36,11 @@ class ColourCorrection:
             dist = function
         # image_intensity = img_as_ubyte(rgb2gray(image))
         # freq, bins = cumulative_distribution(image_intensity)
-        
         # Convert to HSV color space
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
         # Split the channels
         h, s, v = cv2.split(hsv)
-
         v_eq = ColourCorrection.individual_channel(image, dist, 2)
-        
         # Merge the channels back together
         hsv_eq = cv2.merge([h, s, v_eq])
         result = cv2.cvtColor(hsv_eq, cv2.COLOR_HSV2BGR)

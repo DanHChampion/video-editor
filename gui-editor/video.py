@@ -4,7 +4,6 @@ import numpy as np
 from tqdm import tqdm
 import time
 
-from functions import Functions as f
 from film_grain import FilmGrain
 from colour_transfer import ColourTransfer
 from noise_removal import NoiseRemoval
@@ -14,7 +13,6 @@ class Video():
     def __init__(self):
         self.path = None  
         self.layers = []
-        # self.temp_path = "temp/"
         self.vid_capture = None
 
     def load(self, file_path):
@@ -155,8 +153,6 @@ class Video():
         if layer.process == "colour correction - histogram manipulation logistic":
             return ["Mean", "Standard Deviation"]
         
-                
-        
         if layer.process == "colour transfer - linear histogram matching":
             return []
         if layer.process == "colour transfer - principal component color matching":
@@ -171,8 +167,6 @@ class Video():
         if layer.process == "film grain - inhomogenous boolean model":
             return ["Lambda", "Alpha"]
 
-
-
         if layer.process == "noise removal - median blur":
             return ["Kernel Size"]
         if layer.process == "noise removal - bilateral filter":
@@ -180,8 +174,6 @@ class Video():
         if layer.process == "noise removal - non local means":
             return ["Kernel Size"]
         
-        
-
 
 class Layer: 
     def __init__(self, process , hidden = False, parameters = {}):
